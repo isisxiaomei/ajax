@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        window.onload = () => {
+            var btn = document.getElementById('btn');
+            var respInfo = document.getElementById('respInfo');
+
+            btn.onclick = function() {
+                var userName = document.getElementById('userName').value;
+                var passwd = document.getElementById('passwd').value;
+
+                // 第一步：创建XMLHttpRequest请求对象
+                var xhr = null;
+                xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft");
+                // 第二步：准备发送open(method, url, [是否异步—默认false])
+                xhr.open("post", `http://yapi.demo.qunar.com/mock/18150/test/ajax.html?userName=${userName}&passwd=${passwd}`, true);
+                // 第三步：执行发送动作；get方式默认发送null；post方式sent(post数据)
+                xhr.setRequestHeader("Content-Type", "application/json;charset=utf-8");
+                xhr.send(null);
+                // 第四步：响应的回调函数
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        respInfo.innerHTML = xhr.responseText;
+                    }
+                }
+            };
+            
+        }
+    </script>
+</head>
+<body>
+    <form>
+        姓名：<input type="text" name="userName" id="userName"><span id="respInfo"></span><br>
+        密码：<input type="password" name="passwd" id="passwd">
+        <input type="button" value="登录" id="btn">
+    </form>
+
+</body>
+</html>
